@@ -31,4 +31,9 @@ public class TurnViewPort : MonoBehaviour
     {
         upEvent?.Invoke(this);
     }
+
+    public void MoveDown()
+    {
+        downEvent?.Invoke(this);
+    }
 }
