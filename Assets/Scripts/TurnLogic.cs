@@ -4,57 +4,43 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public struct Fighter
-{
-    public string name;
-    public int initciative;
-    public int dex;
-    public int diceValue;
-}
-
 public class TurnLogic : MonoBehaviour
 {
     public Action<List<Fighter>> fightOrder;
 
-    [SerializeField] private ButtonSendInput _button;
+    [SerializeField] private GenerateTextLogic _fighterText;
 
     private List<Fighter> _fightersList = new List<Fighter>();
-    private Fighter _tempFighter;
 
     private void OnEnable()
     {
-        _button.sendCharacters += NewFighter;
+        _fighterText.newFighter += NewFighter;
     }
 
     private void OnDisable()
     {
-        _button.sendCharacters += NewFighter;
+        _fighterText.newFighter -= NewFighter;
     }
 
     private void Awake()
     {
-        if (!_button)
+        if (!_fighterText)
         {
-            Debug.LogError($"{name}: button is null\nCheck and assigned one.\nDisabling component.");
+            Debug.LogError($"{name}: TextLogic is null\nCheck and assigned one.\nDisabling component.");
             enabled = false;
             return;
         }
     }
 
-    private void NewFighter(string name, int initiative, int dex)
+    private void NewFighter(Fighter fighter)
     {
-        _tempFighter.name = name;
-        _tempFighter.dex = dex;
-        _tempFighter.initciative = initiative;
-        _tempFighter.diceValue = initiative - dex;
-        _fightersList.Add(_tempFighter);
+        _fightersList.Add(fighter);
     }
 
     [ContextMenu("Order Text")]
     public void OrderText()
     {
-        List<string> _namesList = new List<string>();
-        _fightersList = _fightersList.OrderByDescending(chara => chara.initciative)
+        _fightersList = _fightersList.OrderByDescending(chara => chara.iniciative)
                                      .ThenByDescending(chara => chara.dex)
                                      .ToList();
 

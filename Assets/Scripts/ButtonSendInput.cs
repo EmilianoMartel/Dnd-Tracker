@@ -43,7 +43,6 @@ public class ButtonSendInput : MonoBehaviour
             Debug.Log("Invalid input.");
             return;
         }
-        
         Debug.Log($"Send text {_name} {_iniciative} {_dex}");
         sendCharacters?.Invoke(_name,_iniciative,_dex);
     }
