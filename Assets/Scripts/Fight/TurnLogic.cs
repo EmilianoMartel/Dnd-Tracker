@@ -17,12 +17,15 @@ public struct Fighter
 
 public class TurnLogic : MonoBehaviour
 {
-    public Action<List<Fighter>> fightOrder;
+    public Action<List<Fighter>> fightOrderEvent;
+    public Action<int> indexTurnEvent;
+    public Action startFightEvent;
 
     [SerializeField] private ButtonSendInput _button;
     [SerializeField] private GenerateTextLogic _generateText;
 
     private List<Fighter> _fightersList = new List<Fighter>();
+    private int index = 0;
 
     private void OnEnable()
     {
@@ -68,7 +71,7 @@ public class TurnLogic : MonoBehaviour
                                      .ThenByDescending(chara => chara.dex)
                                      .ToList();
 
-        fightOrder?.Invoke(_fightersList);
+        fightOrderEvent?.Invoke(_fightersList);
     }
 
     private void MoveFighters(int index, bool isMoveUp)
@@ -96,6 +99,23 @@ public class TurnLogic : MonoBehaviour
             _fightersList[index] = _fightersList[index + 1];
             _fightersList[index + 1] = tempFighter;
         }
-        fightOrder?.Invoke(_fightersList);
+        fightOrderEvent?.Invoke(_fightersList);
+    }
+
+    [ContextMenu("Next Turn")]
+    public void NextTurn()
+    {
+        index++;
+        if (index >= _fightersList.Count)
+        {
+            index = 0;
+        }
+        indexTurnEvent?.Invoke(index);
+    }
+
+    [ContextMenu("Start Fight")]
+    public void StartFight()
+    {
+        startFightEvent?.Invoke();
     }
 }

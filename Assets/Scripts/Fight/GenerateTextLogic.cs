@@ -20,18 +20,22 @@ public class GenerateTextLogic : MonoBehaviour
     private void OnEnable()
     {
         _button.sendCharacters += NewText;
-        _turnLogic.fightOrder += UpdateList;
+        _turnLogic.fightOrderEvent += UpdateList;
+        _turnLogic.startFightEvent += StartFight;
+        _turnLogic.indexTurnEvent += NextTurn;
     }
 
     private void OnDisable()
     {
         _button.sendCharacters -= NewText;
-        _turnLogic.fightOrder -= UpdateList;
+        _turnLogic.fightOrderEvent -= UpdateList;
         for (int i = 0; i < _turnViewList.Count; i++)
         {
             _turnViewList[i].upEvent -= MoveToUp;
             _turnViewList[i].downEvent -= MoveDown;
         }
+        _turnLogic.startFightEvent -= StartFight;
+        _turnLogic.indexTurnEvent -= NextTurn;
     }
 
     private void Awake()
@@ -98,6 +102,40 @@ public class GenerateTextLogic : MonoBehaviour
             {
                 indexChange?.Invoke(index, false);
             }
+        }
+    }
+
+    private void StartFight()
+    {
+        for (int i = 0; i < _turnViewList.Count; i++)
+        {
+            if (i == 0)
+            {
+                _turnViewList[i].IsMyTurn();
+            }
+            else
+            {
+                _turnViewList[i].PassTurn();
+            }
+        }
+    }
+
+    private void NextTurn(int index)
+    {
+        if (index < 0 || index >= _turnViewList.Count)
+        {
+            Debug.LogError($"{name}: index overflow to list.");
+            return;
+        }
+        if (index == 0)
+        {
+            _turnViewList[index].IsMyTurn();
+            _turnViewList[_turnViewList.Count - 1].PassTurn();
+        }
+        else
+        {
+            _turnViewList[index].IsMyTurn();
+            _turnViewList[index - 1].PassTurn();
         }
     }
 }
