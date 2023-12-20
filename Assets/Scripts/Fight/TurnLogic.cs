@@ -64,6 +64,34 @@ public class TurnLogic : MonoBehaviour
         _fightersList.Add(tempFighter);
     }
 
+    private void NewFighter(Character character, int iniciative)
+    {
+        Fighter tempFighter = new Fighter();
+        tempFighter.nameFighter = character.nameCharacter;
+        tempFighter.iniciative = iniciative;
+        tempFighter.dex = character.dexterity;
+        _fightersList.Add(tempFighter);
+    }
+
+    private void NewFighter(Monsters monster, int iniciative)
+    {
+        Fighter tempFighter = new Fighter();
+        tempFighter.nameFighter = monster.name;
+        tempFighter.iniciative = iniciative;
+        string dex = monster.DEX_mod;
+        dex = dex.Replace("(", "").Replace(")", "").Replace(" ", "");
+
+        int sing = (dex.Contains("+")) ? 1 : -1;
+
+        if (int.TryParse(dex, out int num))
+        {
+            int result = sing * num;
+            tempFighter.dex = result;
+        }
+
+        _fightersList.Add(tempFighter);
+    }
+
     [ContextMenu("Order Text")]
     public void OrderText()
     {

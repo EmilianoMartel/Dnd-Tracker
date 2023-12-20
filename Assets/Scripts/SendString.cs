@@ -9,6 +9,10 @@ public class SendString : MonoBehaviour
 
     private string GetName()
     {
+        if (_inputText.text == null)
+        {
+            return null;
+        }
         return _inputText.text;
     }
 
