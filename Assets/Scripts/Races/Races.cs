@@ -18,7 +18,7 @@ public class Races
     public List<string> languages;
     public List<Feactures> skills;
 }
-
+[System.Serializable]
 public class AbilityScoreIncrease
 {
     public int STR;
@@ -28,7 +28,7 @@ public class AbilityScoreIncrease
     public int WIS;
     public int CHA;
 }
-
+[System.Serializable]
 public class SubRaces
 {
     public string name;

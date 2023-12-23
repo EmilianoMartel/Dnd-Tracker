@@ -1,19 +1,21 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
+using UnityEditor;
 
 public class ReadMonsters : MonoBehaviour
 {
-    private List<Monsters> _monstersList;
+    private List<MonstersTemp> _monstersList;
     private static string FILENAME = "Monsters.json";
     private static string relativeFolder = "Data";
     private string filePath;
 
-    public List<Monsters> monsterList { get { return _monstersList; } }
+    public List<MonstersTemp> monsterList { get { return _monstersList; } }
 
     private void Awake()
     {
@@ -23,7 +25,7 @@ public class ReadMonsters : MonoBehaviour
         {
             if (File.Exists(filePath))
             {
-                _monstersList = JsonConvert.DeserializeObject<List<Monsters>>(File.ReadAllText(filePath));
+                _monstersList = JsonConvert.DeserializeObject<List<MonstersTemp>>(File.ReadAllText(filePath));
 
                 //foreach (Monsters monster in _monstersList)
                 //{
@@ -45,5 +47,18 @@ public class ReadMonsters : MonoBehaviour
     private void ShowMonster()
     {
         Debug.Log($"{_monstersList[0].name}");
+    }
+
+    public MonstersTemp SearchMonster(string monster)
+    {
+        MonstersTemp monsterFound = _monstersList.FirstOrDefault(monsterTemp => monsterTemp.name == monster);
+        if (monsterFound != null)
+        {
+            return monsterFound;
+        }
+        else
+        {
+            return null;
+        }
     }
 }

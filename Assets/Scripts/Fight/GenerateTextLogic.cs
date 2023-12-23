@@ -10,25 +10,28 @@ public class GenerateTextLogic : MonoBehaviour
     /// </summary>
     public Action<int, bool> indexChange;
 
-    [SerializeField] private ButtonSendInput _button;
     [SerializeField] private TurnLogic _turnLogic;
     [SerializeField] private TurnViewPort _turnPrefab;
+    [SerializeField] private InputRead _inputRead;
 
     private TurnViewPort _textTemp;
     private List<TurnViewPort> _turnViewList = new List<TurnViewPort>();
 
     private void OnEnable()
     {
-        _button.sendCharacters += NewText;
+        _turnLogic.sendFighter += NewText;
         _turnLogic.fightOrderEvent += UpdateList;
         _turnLogic.startFightEvent += StartFight;
         _turnLogic.indexTurnEvent += NextTurn;
+        _inputRead.mousePositionEvent += CheckClick;
     }
 
     private void OnDisable()
     {
-        _button.sendCharacters -= NewText;
+        _turnLogic.sendFighter -= NewText;
         _turnLogic.fightOrderEvent -= UpdateList;
+        _inputRead.mousePositionEvent -= CheckClick;
+
         for (int i = 0; i < _turnViewList.Count; i++)
         {
             _turnViewList[i].upEvent -= MoveToUp;
@@ -40,12 +43,6 @@ public class GenerateTextLogic : MonoBehaviour
 
     private void Awake()
     {
-        if (!_button)
-        {
-            Debug.LogError($"{name}: button is null\nCheck and assigned one.\nDisabling component.");
-            enabled = false;
-            return;
-        }
         if (!_turnLogic)
         {
             Debug.LogError($"{name}: TurnLogic is null\nCheck and assigned one.\nDisabling component.");
@@ -136,6 +133,20 @@ public class GenerateTextLogic : MonoBehaviour
         {
             _turnViewList[index].IsMyTurn();
             _turnViewList[index - 1].PassTurn();
+        }
+    }
+
+    private void CheckClick(Vector3 position)
+    {
+        Debug.Log("try");
+
+        Ray ray = Camera.main.ScreenPointToRay(position);
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            Debug.Log("Click in: " + hit.collider.gameObject.name);
         }
     }
 }

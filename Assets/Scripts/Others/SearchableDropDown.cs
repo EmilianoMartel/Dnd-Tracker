@@ -73,7 +73,7 @@ public class SearchableDropDown : MonoBehaviour
     public void ResetDropDown()
     {
         _inputField.text = string.Empty;
-        
+
     }
 
     //call this to Add items to Drop down
@@ -117,11 +117,11 @@ public class SearchableDropDown : MonoBehaviour
         yield return new WaitForSeconds(1);
         if (!_avlOptions.Contains(arg))
         {
-           // Message msg = new Message("Invalid Input!", "Please choose from dropdown",
-           //                 this.gameObject, Message.ButtonType.OK);
-           //
-           //             if (MessageBox.instance)
-           //                 MessageBox.instance.ShowMessage(msg); 
+            // Message msg = new Message("Invalid Input!", "Please choose from dropdown",
+            //                 this.gameObject, Message.ButtonType.OK);
+            //
+            //             if (MessageBox.instance)
+            //                 MessageBox.instance.ShowMessage(msg); 
 
             _inputField.text = String.Empty;
         }
@@ -129,6 +129,7 @@ public class SearchableDropDown : MonoBehaviour
         //    Debug.Log("good job " );
         OnValueChangedEvt?.Invoke(_inputField.text);
     }
+
     /// <summary>
     /// Called ever time on Drop down value is changed to resize it
     /// </summary>
@@ -220,7 +221,7 @@ public class SearchableDropDown : MonoBehaviour
     /// </summary>
     private void OnDDButtonClick()
     {
-        if(GetActiveButtons()<=0)
+        if (GetActiveButtons() <= 0)
             return;
         ResizeScrollRect();
         SetScrollActive(_isContentHidden);

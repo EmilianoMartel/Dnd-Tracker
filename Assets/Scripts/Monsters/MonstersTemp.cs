@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
 
 [System.Serializable]
-public class Monsters
+public class MonstersTemp
 {
     [Newtonsoft.Json.JsonProperty("name")]
     public string name;
