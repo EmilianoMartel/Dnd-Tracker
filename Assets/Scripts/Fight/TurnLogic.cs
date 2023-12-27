@@ -10,7 +10,7 @@ public class TurnLogic : MonoBehaviour
     public Action<List<Fighter>> fightOrderEvent;
     public Action<int> indexTurnEvent;
     public Action startFightEvent;
-    public Action<string, int, int> sendFighter;
+    public Action<string> sendFighter;
 
     [SerializeField] private ButtonSendInput _buttonCustom;
     [SerializeField] private SendMonsterFighter _buttonSendFighter;
@@ -59,9 +59,9 @@ public class TurnLogic : MonoBehaviour
         tempFighter.nameFighter = name;
         tempFighter.iniciative = iniciative;
         tempFighter.dex = dex;
-        tempFighter.tagFighter = _customTag;
+        tempFighter.tagFighter = Fighter.Tag.custom;
         _fightersList.Add(tempFighter);
-        sendFighter?.Invoke(name, iniciative, dex);
+        sendFighter?.Invoke(name);
     }
 
     private void NewFighter(Character character, int iniciative)
@@ -70,9 +70,12 @@ public class TurnLogic : MonoBehaviour
         tempFighter.nameFighter = character.nameCharacter;
         tempFighter.iniciative = iniciative;
         tempFighter.dex = character.dexterity;
-        tempFighter.tagFighter = _playerTag;
+        tempFighter.tagFighter = Fighter.Tag.character;
+
+        tempFighter.characterData = character;
+
         _fightersList.Add(tempFighter);
-        sendFighter?.Invoke(character.nameCharacter, iniciative, character.dexMod);
+        sendFighter?.Invoke(character.nameCharacter);
     }
 
     private void NewFighter(MonstersTemp monster, int iniciative)
@@ -81,7 +84,7 @@ public class TurnLogic : MonoBehaviour
         tempFighter.nameFighter = monster.name;
         tempFighter.iniciative = iniciative;
         string dex = monster.DEX_mod;
-        tempFighter.tagFighter = _monsterTag;
+        tempFighter.tagFighter = Fighter.Tag.monster;
         dex = dex.Replace("(", "").Replace(")", "").Replace(" ", "");
 
         int sing = (dex.Contains("+")) ? 1 : -1;
@@ -91,8 +94,12 @@ public class TurnLogic : MonoBehaviour
             int result = sing * num;
             tempFighter.dex = result;
         }
+
+        tempFighter.monsterData = monster;
+
+        tempFighter.SetParameters();
         _fightersList.Add(tempFighter);
-        sendFighter?.Invoke(monster.name, iniciative, tempFighter.dex);
+        sendFighter?.Invoke(monster.name);
     }
 
     [ContextMenu("Order Text")]

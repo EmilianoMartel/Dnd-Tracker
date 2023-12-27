@@ -11,8 +11,8 @@ public class TurnViewPort : MonoBehaviour
     public Action<TurnViewPort> downEvent;
 
     [SerializeField] private TMPro.TMP_Text _textName;
-    [SerializeField] private TMPro.TMP_Text _textIniciative;
-    [SerializeField] private TMPro.TMP_Text _textDex;
+    [SerializeField] private TMPro.TMP_Text _textAC;
+    [SerializeField] private TMPro.TMP_Text _textLife;
 
     [SerializeField] private Image _image;
     [SerializeField] private Color _colorTurn;
@@ -21,16 +21,6 @@ public class TurnViewPort : MonoBehaviour
     public void ChangeName(string name)
     {
         _textName.text = name;
-    }
-
-    public void ChangeIniciative(int iniciativeTemp)
-    {
-        _textIniciative.text = iniciativeTemp.ToString();
-    }
-
-    public void ChangeDex(int dexTemp)
-    {
-        _textDex.text = dexTemp.ToString();
     }
 
     public void MoveUp()
@@ -55,4 +45,10 @@ public class TurnViewPort : MonoBehaviour
         _image.color = _colorNone;
     }
 
+    public void ChangeTextView(Fighter fighter)
+    {
+        ChangeName(fighter.nameFighter);
+        _textAC.text = fighter.aC.ToString();
+        _textLife.text = fighter.maxLife.ToString();
+    }
 }

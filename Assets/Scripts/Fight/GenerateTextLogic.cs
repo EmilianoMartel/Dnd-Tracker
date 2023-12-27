@@ -51,12 +51,10 @@ public class GenerateTextLogic : MonoBehaviour
         }
     }
 
-    private void NewText(string name, int iniciative, int dex)
+    private void NewText(string name)
     {
         _textTemp = Instantiate(_turnPrefab, transform.position, Quaternion.identity);
         _textTemp.ChangeName(name);
-        _textTemp.ChangeIniciative(iniciative);
-        _textTemp.ChangeDex(dex);
         _textTemp.transform.parent = transform;
         _turnViewList.Add(_textTemp);
         _textTemp.upEvent += MoveToUp;
@@ -72,9 +70,7 @@ public class GenerateTextLogic : MonoBehaviour
         }
         for (int i = 0; i < _turnViewList.Count; i++)
         {
-            _turnViewList[i].ChangeName(names[i].nameFighter);
-            _turnViewList[i].ChangeIniciative(names[i].iniciative);
-            _turnViewList[i].ChangeDex(names[i].dex);
+            _turnViewList[i].ChangeTextView(names[i]);
         }
     }
 
