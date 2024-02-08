@@ -49,6 +49,6 @@ public class TurnViewPort : MonoBehaviour
     {
         ChangeName(fighter.nameFighter);
         _textAC.text = fighter.aC.ToString();
-        _textLife.text = fighter.maxLife.ToString();
+        _textLife.text = fighter.actualLife.ToString();
     }
 }

@@ -51,10 +51,10 @@ public class GenerateTextLogic : MonoBehaviour
         }
     }
 
-    private void NewText(string name)
+    private void NewText(Fighter fighter)
     {
         _textTemp = Instantiate(_turnPrefab, transform.position, Quaternion.identity);
-        _textTemp.ChangeName(name);
+        _textTemp.ChangeTextView(fighter);
         _textTemp.transform.parent = transform;
         _turnViewList.Add(_textTemp);
         _textTemp.upEvent += MoveToUp;

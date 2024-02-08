@@ -54,6 +54,7 @@ public class Fighter
         _maxLife = maxLifeTemp;
         _ac = aCTemp;
         _dex = dexTemp;
+        _actualLife = _maxLife;
     }
 
     public void SetParameters()

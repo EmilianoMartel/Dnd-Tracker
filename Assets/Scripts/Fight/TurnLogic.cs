@@ -10,7 +10,7 @@ public class TurnLogic : MonoBehaviour
     public Action<List<Fighter>> fightOrderEvent;
     public Action<int> indexTurnEvent;
     public Action startFightEvent;
-    public Action<string> sendFighter;
+    public Action<Fighter> sendFighter;
 
     [SerializeField] private ButtonSendInput _buttonCustom;
     [SerializeField] private SendMonsterFighter _buttonSendFighter;
@@ -25,14 +25,14 @@ public class TurnLogic : MonoBehaviour
 
     private void OnEnable()
     {
-        _buttonCustom.sendCharacters += NewFighter;
+        _buttonCustom.sendFighters += NewFighter;
         _buttonSendFighter.sendMonster += NewFighter;
         _generateText.indexChange += MoveFighters;
     }
 
     private void OnDisable()
     {
-        _buttonCustom.sendCharacters -= NewFighter;
+        _buttonCustom.sendFighters -= NewFighter;
         _buttonSendFighter.sendMonster -= NewFighter;
         _generateText.indexChange -= MoveFighters;
     }
@@ -53,15 +53,11 @@ public class TurnLogic : MonoBehaviour
         }
     }
 
-    private void NewFighter(string name, int iniciative, int dex)
+    private void NewFighter(Fighter newFighter)
     {
-        Fighter tempFighter = new Fighter();
-        tempFighter.nameFighter = name;
-        tempFighter.iniciative = iniciative;
-        tempFighter.dex = dex;
-        tempFighter.tagFighter = Fighter.Tag.custom;
-        _fightersList.Add(tempFighter);
-        sendFighter?.Invoke(name);
+        newFighter.tagFighter = Fighter.Tag.custom;
+        _fightersList.Add(newFighter);
+        sendFighter?.Invoke(newFighter);
     }
 
     private void NewFighter(Character character, int iniciative)
@@ -75,7 +71,7 @@ public class TurnLogic : MonoBehaviour
         tempFighter.characterData = character;
 
         _fightersList.Add(tempFighter);
-        sendFighter?.Invoke(character.nameCharacter);
+        sendFighter?.Invoke(tempFighter);
     }
 
     private void NewFighter(MonstersTemp monster, int iniciative)
@@ -99,7 +95,7 @@ public class TurnLogic : MonoBehaviour
 
         tempFighter.SetParameters();
         _fightersList.Add(tempFighter);
-        sendFighter?.Invoke(monster.name);
+        sendFighter?.Invoke(tempFighter);
     }
 
     [ContextMenu("Order Text")]
