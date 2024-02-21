@@ -7,12 +7,14 @@ using UnityEngine.UI;
 
 public class TurnViewPort : MonoBehaviour
 {
+    public Action<TurnViewPort> isClicked;
     public Action<TurnViewPort> upEvent;
     public Action<TurnViewPort> downEvent;
 
     [SerializeField] private TMPro.TMP_Text _textName;
     [SerializeField] private TMPro.TMP_Text _textAC;
     [SerializeField] private TMPro.TMP_Text _textLife;
+   // [SerializeField] private 
 
     [SerializeField] private Image _image;
     [SerializeField] private Color _colorTurn;
@@ -50,5 +52,10 @@ public class TurnViewPort : MonoBehaviour
         ChangeName(fighter.nameFighter);
         _textAC.text = fighter.aC.ToString();
         _textLife.text = fighter.actualLife.ToString();
+    }
+
+    public void OnClick()
+    {
+        isClicked?.Invoke(this);
     }
 }

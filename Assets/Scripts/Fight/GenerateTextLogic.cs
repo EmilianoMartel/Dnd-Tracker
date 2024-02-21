@@ -145,4 +145,5 @@ public class GenerateTextLogic : MonoBehaviour
             Debug.Log("Click in: " + hit.collider.gameObject.name);
         }
     }
+
 }
