@@ -12,6 +12,10 @@ public class ViewButtonsLogic : MonoBehaviour
     [SerializeField] private Button _nextTurnButton;
     [SerializeField] private Button _orderButton;
 
+    //InputSets
+    [SerializeField] private GameObject _fightersInput;
+    [SerializeField] private GameObject _modifierInput;
+
     private void OnEnable()
     {
         _turnLogic.startFightEvent += StartFight;
@@ -48,17 +52,32 @@ public class ViewButtonsLogic : MonoBehaviour
             enabled = false;
             return;
         }
+        if (!_fightersInput)
+        {
+            Debug.LogError($"{name}: FighterInput is null\nCheck and assigned one.\nDisabling component.");
+            enabled = false;
+            return;
+        }
+        if (!_modifierInput)
+        {
+            Debug.LogError($"{name}: ModifierInput is null\nCheck and assigned one.\nDisabling component.");
+            enabled = false;
+            return;
+        }
     }
 
     private void Start()
     {
         _nextTurnButton.gameObject.SetActive(false);
+        _modifierInput.gameObject.SetActive(false);
     }
 
     private void StartFight()
     {
         _nextTurnButton.gameObject.SetActive(true);
+        _modifierInput.gameObject.SetActive(true);
         _startButton.gameObject.SetActive(false);
         _orderButton.gameObject.SetActive(false);
+        _fightersInput.gameObject.SetActive(false);
     }
 }
