@@ -49,6 +49,17 @@ public class Fighter
         }
     }
 
+    public void FullHealth()
+    {
+        _actualLife = _maxLife;
+    }
+
+    public void ChangeMaxLife(int maxLife)
+    {
+        _maxLife = maxLife;
+        _actualLife = maxLife;
+    }
+
     public void CustomFighter(int maxLifeTemp, int aCTemp, int dexTemp)
     {
         _maxLife = maxLifeTemp;

@@ -24,6 +24,8 @@ public class FighterManager : MonoBehaviour
 
     //Modifiers
     private Damage _damage;
+    private Health _health;
+    private ChangeMaxLife _changeMaxLife;
 
     //DataSource
     [SerializeField] private FightManagerDataSO _dataSO;
@@ -45,6 +47,19 @@ public class FighterManager : MonoBehaviour
         {
             _viewPortManager.indexChange += MoveFighters;
         }
+        if (_damage)
+        {
+            _damage.damageEvent += DamageFighter;
+        }
+        if (_health)
+        {
+            _health.healthEvent += HealthFighter;
+            _health.fullHealthEvent += FullHealth;
+        }
+        if (_changeMaxLife)
+        {
+            _changeMaxLife.changeMaxLifeEvent += MaxLifeChange;
+        }
     }
 
     private void OnDisable()
@@ -58,6 +73,15 @@ public class FighterManager : MonoBehaviour
         if (_damage)
         {
             _damage.damageEvent -= DamageFighter;
+        }
+        if (_health)
+        {
+            _health.healthEvent -= HealthFighter;
+            _health.fullHealthEvent -= FullHealth;
+        }
+        if (_changeMaxLife)
+        {
+            _changeMaxLife.changeMaxLifeEvent -= MaxLifeChange;
         }
     }
 
@@ -98,6 +122,17 @@ public class FighterManager : MonoBehaviour
         {
             _damage = _dataSO.damage;
             _damage.damageEvent += DamageFighter;
+        }
+        if (_dataSO.health && !_health)
+        {
+            _health = _dataSO.health;
+            _health.healthEvent += HealthFighter;
+            _health.fullHealthEvent += FullHealth;
+        }
+        if (_dataSO.changeMaxLife && !_changeMaxLife)
+        {
+            _changeMaxLife = _dataSO.changeMaxLife;
+            _changeMaxLife.changeMaxLifeEvent += MaxLifeChange;
         }
     }
 
@@ -209,6 +244,43 @@ public class FighterManager : MonoBehaviour
             return;
         }
         _fightersList[index].Damage(damage);
+
+        changeLife?.Invoke(index, _fightersList[index].actualLife);
+    }
+
+    private void HealthFighter(int health, int index)
+    {
+        if (index >= _fightersList.Count || index < 0)
+        {
+            Debug.LogError($"{name}: The index number is out of range");
+            return;
+        }
+        _fightersList[index].Healing(health);
+
+        changeLife?.Invoke(index, _fightersList[index].actualLife);
+    }
+
+    private void FullHealth(int index)
+    {
+        if (index >= _fightersList.Count || index < 0)
+        {
+            Debug.LogError($"{name}: The index number is out of range");
+            return;
+        }
+        _fightersList[index].FullHealth();
+
+        changeLife?.Invoke(index, _fightersList[index].actualLife);
+    }
+
+    private void MaxLifeChange(int life, int index)
+    {
+        if (index >= _fightersList.Count || index < 0)
+        {
+            Debug.LogError($"{name}: The index number is out of range");
+            return;
+        }
+
+        _fightersList[index].ChangeMaxLife(life);
 
         changeLife?.Invoke(index, _fightersList[index].actualLife);
     }
