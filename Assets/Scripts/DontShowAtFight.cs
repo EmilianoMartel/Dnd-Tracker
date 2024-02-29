@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class DontShowAtFight : MonoBehaviour
 {
-    [SerializeField] private TurnLogic _turnLogic;
+    [SerializeField] private FighterManager _turnLogic;
 
 }
