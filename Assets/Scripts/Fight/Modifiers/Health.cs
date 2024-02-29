@@ -4,40 +4,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Damage : MonoBehaviour
+public class Health : MonoBehaviour
 {
     /// <summary>
-    /// This func send the Damage and Index in list
+    /// This func send the Health and Index in list
     /// </summary>
-    public Action<int, int> damageEvent;
-    private Func<int> getDamage;
+    public Action<int, int> healthEvent;
+    public Action<int> fullHealthEvent;
+    private Func<int> getHealth;
 
     [SerializeField] private FightManagerDataSO _dataSource;
-    [SerializeField] private Button _button;
-    [SerializeField] private SendInt _damageInput;
+    [SerializeField] private Button _buttonHealth;
+    [SerializeField] private Button _fullHealthButton;
+    [SerializeField] private SendInt _healthInput;
 
-    [SerializeField] private float _waitForManager;
+    [SerializeField] private float _waitForManager = 2;
 
     private ViewPortManager _viewPortManager;
-    private int _indexDamage = 0;
+    private int _index = 0;
 
     private void OnEnable()
     {
-        _damageInput.SuscriptionFunc(ref getDamage);
-        _button.onClick.AddListener(SendDamage);
+        _healthInput.SuscriptionFunc(ref getHealth);
+        _buttonHealth.onClick.AddListener(SendHealth);
+        _fullHealthButton.onClick.AddListener(SendHealth);
         if (_viewPortManager)
         {
-            _viewPortManager.indexClicked += SetIndexDamage;
+            _viewPortManager.indexClicked += SetIndexHealth;
         }
     }
 
     private void OnDisable()
     {
-        _damageInput.DesuscriptionFunc(ref getDamage);
-        _button.onClick.RemoveAllListeners();
+        _healthInput.DesuscriptionFunc(ref getHealth);
+        _buttonHealth.onClick.RemoveAllListeners();
+        _fullHealthButton.onClick.RemoveAllListeners();
         if (_viewPortManager)
         {
-            _viewPortManager.indexClicked -= SetIndexDamage;
+            _viewPortManager.indexClicked -= SetIndexHealth;
         }
     }
 
@@ -49,19 +53,19 @@ public class Damage : MonoBehaviour
             enabled = false;
             return;
         }
-        if (!_button)
+        if (!_buttonHealth)
         {
             Debug.LogError(message: $"{name}: Button is null\n Check and assigned one\nDisabling component");
             enabled = false;
             return;
         }
-        if (!_damageInput)
+        if (!_healthInput)
         {
             Debug.LogError(message: $"{name}: DamageInput is null\n Check and assigned one\nDisabling component");
             enabled = false;
             return;
         }
-        _dataSource.damage = this;
+        _dataSource.health = this;
         StartCoroutine(SetManager());
     }
 
@@ -71,19 +75,24 @@ public class Damage : MonoBehaviour
         if (_dataSource.viewPortManager && !_viewPortManager)
         {
             _viewPortManager = _dataSource.viewPortManager;
-            _viewPortManager.indexClicked += SetIndexDamage;
+            _viewPortManager.indexClicked += SetIndexHealth;
         }
     }
 
-    private void SendDamage()
+    private void SendHealth()
     {
-        int damage;
-        damage = (int)getDamage?.Invoke();
-        damageEvent?.Invoke(damage, _indexDamage);
+        int health;
+        health = (int)getHealth?.Invoke();
+        healthEvent?.Invoke(health, _index);
     }
 
-    private void SetIndexDamage(int index)
+    private void SendFullHealth()
     {
-        _indexDamage = index;
+        fullHealthEvent?.Invoke(_index);
+    }
+
+    private void SetIndexHealth(int index)
+    {
+        _index = index;
     }
 }

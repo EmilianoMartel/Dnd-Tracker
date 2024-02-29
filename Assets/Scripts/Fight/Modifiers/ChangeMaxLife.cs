@@ -4,40 +4,39 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Damage : MonoBehaviour
-{
-    /// <summary>
-    /// This func send the Damage and Index in list
-    /// </summary>
-    public Action<int, int> damageEvent;
-    private Func<int> getDamage;
+public class ChangeMaxLife : MonoBehaviour
+{    /// <summary>
+     /// This func send the MaxLife and Index in list
+     /// </summary>
+    public Action<int, int> changeMaxLifeEvent;
+    private Func<int> getLife;
 
     [SerializeField] private FightManagerDataSO _dataSource;
     [SerializeField] private Button _button;
-    [SerializeField] private SendInt _damageInput;
+    [SerializeField] private SendInt _maxLifeInput;
 
-    [SerializeField] private float _waitForManager;
+    [SerializeField] private float _waitForManager = 2;
 
     private ViewPortManager _viewPortManager;
-    private int _indexDamage = 0;
+    private int _index = 0;
 
     private void OnEnable()
     {
-        _damageInput.SuscriptionFunc(ref getDamage);
-        _button.onClick.AddListener(SendDamage);
+        _maxLifeInput.SuscriptionFunc(ref getLife);
+        _button.onClick.AddListener(SendHealth);
         if (_viewPortManager)
         {
-            _viewPortManager.indexClicked += SetIndexDamage;
+            _viewPortManager.indexClicked += SetIndexHealth;
         }
     }
 
     private void OnDisable()
     {
-        _damageInput.DesuscriptionFunc(ref getDamage);
+        _maxLifeInput.DesuscriptionFunc(ref getLife);
         _button.onClick.RemoveAllListeners();
         if (_viewPortManager)
         {
-            _viewPortManager.indexClicked -= SetIndexDamage;
+            _viewPortManager.indexClicked -= SetIndexHealth;
         }
     }
 
@@ -55,13 +54,13 @@ public class Damage : MonoBehaviour
             enabled = false;
             return;
         }
-        if (!_damageInput)
+        if (!_maxLifeInput)
         {
             Debug.LogError(message: $"{name}: DamageInput is null\n Check and assigned one\nDisabling component");
             enabled = false;
             return;
         }
-        _dataSource.damage = this;
+        _dataSource.changeMaxLife = this;
         StartCoroutine(SetManager());
     }
 
@@ -71,19 +70,19 @@ public class Damage : MonoBehaviour
         if (_dataSource.viewPortManager && !_viewPortManager)
         {
             _viewPortManager = _dataSource.viewPortManager;
-            _viewPortManager.indexClicked += SetIndexDamage;
+            _viewPortManager.indexClicked += SetIndexHealth;
         }
     }
 
-    private void SendDamage()
+    private void SendHealth()
     {
-        int damage;
-        damage = (int)getDamage?.Invoke();
-        damageEvent?.Invoke(damage, _indexDamage);
+        int health;
+        health = (int)getLife?.Invoke();
+        changeMaxLifeEvent?.Invoke(health, _index);
     }
 
-    private void SetIndexDamage(int index)
+    private void SetIndexHealth(int index)
     {
-        _indexDamage = index;
+        _index = index;
     }
 }
