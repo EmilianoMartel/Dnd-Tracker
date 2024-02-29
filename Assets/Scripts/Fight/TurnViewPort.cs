@@ -14,7 +14,6 @@ public class TurnViewPort : MonoBehaviour
     [SerializeField] private TMPro.TMP_Text _textName;
     [SerializeField] private TMPro.TMP_Text _textAC;
     [SerializeField] private TMPro.TMP_Text _textLife;
-    [SerializeField] private FightManagerDataSO _managerDataSourceSO;
 
     [SerializeField] private Image _image;
     [SerializeField] private Color _colorTurn;
@@ -56,6 +55,12 @@ public class TurnViewPort : MonoBehaviour
 
     public void OnClick()
     {
+        Debug.Log($"{_textName.text} is clicked");
         isClicked?.Invoke(this);
+    }
+
+    public void ChangeLife(int life)
+    {
+        _textLife.text = life.ToString();
     }
 }

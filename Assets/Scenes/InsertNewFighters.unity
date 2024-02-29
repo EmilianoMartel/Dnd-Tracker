@@ -632,7 +632,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1419423706}
   m_HandleRect: {fileID: 1419423705}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2852,7 +2852,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -2947,8 +2947,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -343, y: 137}
-  m_SizeDelta: {x: 160.2354, y: 179.2138}
+  m_AnchoredPosition: {x: -317.16, y: 124.87009}
+  m_SizeDelta: {x: 160.2354, y: 173.44}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &545500451
 MonoBehaviour:
@@ -3099,7 +3099,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -0.000011381858, y: 0.00000520946}
+  m_AnchoredPosition: {x: -0.000011381858, y: -0.000041099054}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &640494256
@@ -3117,16 +3117,16 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 0
+    m_Top: 40
     m_Bottom: 0
-  m_ChildAlignment: 0
-  m_Spacing: 0
+  m_ChildAlignment: 1
+  m_Spacing: 10
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
+  m_ChildScaleWidth: 1
+  m_ChildScaleHeight: 1
   m_ReverseArrangement: 0
 --- !u!114 &640494258
 MonoBehaviour:
@@ -3140,9 +3140,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc24edc3b7c9cd44f95d73fbd82a0f29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _turnLogic: {fileID: 1627284006}
   _turnPrefab: {fileID: 8232743598026305465, guid: 4cb84faf42a23bf4889ca7d89c44b0c3, type: 3}
   _inputRead: {fileID: 1365269198}
+  _dataSO: {fileID: 11400000, guid: 14dd0eab2a4b5f44a85c78a8ca2ab913, type: 2}
+  _waitForManager: 2
 --- !u!1 &659577914
 GameObject:
   m_ObjectHideFlags: 0
@@ -3180,7 +3181,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 678.36, y: 0}
+  m_AnchoredPosition: {x: 637.04, y: 0}
   m_SizeDelta: {x: 41.93, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &659577916
@@ -3226,8 +3227,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1011524844}
   m_HandleRect: {fileID: 1011524843}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 0.99996936
+  m_Value: 1
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -6123,6 +6124,7 @@ GameObject:
   - component: {fileID: 1045956801}
   - component: {fileID: 1045956800}
   - component: {fileID: 1045956799}
+  - component: {fileID: 1045956802}
   m_Layer: 5
   m_Name: DamageText
   m_TagString: Untagged
@@ -6287,6 +6289,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1045956797}
   m_CullTransparentMesh: 1
+--- !u!114 &1045956802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1045956797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: deb7d3adceb62f449a4789c8d63805f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _inputText: {fileID: 1045956799}
 --- !u!1 &1081500466
 GameObject:
   m_ObjectHideFlags: 0
@@ -7145,8 +7160,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -340.84, y: 66.75781}
-  m_SizeDelta: {x: 155.92, y: 311.2842}
+  m_AnchoredPosition: {x: -315, y: 56.89093}
+  m_SizeDelta: {x: 155.92, y: 301.2555}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1313213041
 GameObject:
@@ -7844,6 +7859,7 @@ GameObject:
   - component: {fileID: 1528987640}
   - component: {fileID: 1528987639}
   - component: {fileID: 1528987638}
+  - component: {fileID: 1528987641}
   m_Layer: 5
   m_Name: Damage
   m_TagString: Untagged
@@ -7954,6 +7970,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1528987636}
   m_CullTransparentMesh: 1
+--- !u!114 &1528987641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1528987636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e00b570b46a1ef4ea1df990ca6c8ce1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dataSource: {fileID: 11400000, guid: 14dd0eab2a4b5f44a85c78a8ca2ab913, type: 2}
+  _button: {fileID: 1528987638}
+  _damageInput: {fileID: 1045956802}
+  _waitForManager: 2
 --- !u!1 &1537999093
 GameObject:
   m_ObjectHideFlags: 0
@@ -8157,8 +8189,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -342.88, y: -167}
-  m_SizeDelta: {x: 160, y: 103.8309}
+  m_AnchoredPosition: {x: -317.04, y: -169.33585}
+  m_SizeDelta: {x: 160, y: 100.4857}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1627284005
 MonoBehaviour:
@@ -8200,7 +8232,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _buttonCustom: {fileID: 751562328}
   _buttonSendFighter: {fileID: 830176467}
-  _generateText: {fileID: 640494258}
+  _dataSO: {fileID: 11400000, guid: 14dd0eab2a4b5f44a85c78a8ca2ab913, type: 2}
+  _waitForManager: 2
   _monsterTag: Monster
   _customTag: Custom
   _playerTag: Player
@@ -9177,8 +9210,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 86.82, y: -1.9025}
-  m_SizeDelta: {x: 678.36, y: 475.2}
+  m_AnchoredPosition: {x: 81.479, y: -8.6932}
+  m_SizeDelta: {x: 637.04, y: 432.42}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1803082233
 MonoBehaviour:

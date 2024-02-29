@@ -12,7 +12,7 @@ public class ReadMonsters : MonoBehaviour
 {
     private List<MonstersTemp> _monstersList;
     private static string FILENAME = "Monsters.json";
-    private static string relativeFolder = "Data";
+    private static string relativeFolder = "Data/Jsons";
     private string filePath;
 
     public List<MonstersTemp> monsterList { get { return _monstersList; } }

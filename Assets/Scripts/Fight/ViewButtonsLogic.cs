@@ -16,6 +16,8 @@ public class ViewButtonsLogic : MonoBehaviour
     [SerializeField] private GameObject _fightersInput;
     [SerializeField] private GameObject _modifierInput;
 
+    [SerializeField] private float _waitForDesactivate = 3;
+
     private void OnEnable()
     {
         _turnLogic.startFightEvent += StartFight;
@@ -68,6 +70,12 @@ public class ViewButtonsLogic : MonoBehaviour
 
     private void Start()
     {
+        StartCoroutine(DesactivateInputs());
+    }
+
+    private IEnumerator DesactivateInputs()
+    {
+        yield return new WaitForSeconds(_waitForDesactivate);
         _nextTurnButton.gameObject.SetActive(false);
         _modifierInput.gameObject.SetActive(false);
     }

@@ -8,13 +8,22 @@ using UnityEngine.TextCore.Text;
 public class FighterManager : MonoBehaviour
 {
     public Action<List<Fighter>> fightOrderEvent;
+    /// <summary>
+    /// This event send the index list and the new life
+    /// </summary>
+    public Action<int, int> changeLife;
     public Action<int> indexTurnEvent;
     public Action startFightEvent;
     public Action<Fighter> sendFighter;
 
     [SerializeField] private ButtonSendInput _buttonCustom;
     [SerializeField] private SendMonsterFighter _buttonSendFighter;
+
+    //Managers
     private ViewPortManager _viewPortManager;
+
+    //Modifiers
+    private Damage _damage;
 
     //DataSource
     [SerializeField] private FightManagerDataSO _dataSO;
@@ -45,6 +54,10 @@ public class FighterManager : MonoBehaviour
         if (_viewPortManager)
         {
             _viewPortManager.indexChange -= MoveFighters;
+        }
+        if (_damage)
+        {
+            _damage.damageEvent -= DamageFighter;
         }
     }
 
@@ -80,6 +93,11 @@ public class FighterManager : MonoBehaviour
         {
             _viewPortManager = _dataSO.viewPortManager;
             _viewPortManager.indexChange += MoveFighters;
+        }
+        if (_dataSO.damage && !_damage)
+        {
+            _damage = _dataSO.damage;
+            _damage.damageEvent += DamageFighter;
         }
     }
 
@@ -181,5 +199,17 @@ public class FighterManager : MonoBehaviour
     public void StartFight()
     {
         startFightEvent?.Invoke();
+    }
+
+    private void DamageFighter(int damage, int index)
+    {
+        if (index >= _fightersList.Count || index < 0)
+        {
+            Debug.LogError($"{name}: The index number is out of range");
+            return;
+        }
+        _fightersList[index].Damage(damage);
+
+        changeLife?.Invoke(index, _fightersList[index].actualLife);
     }
 }

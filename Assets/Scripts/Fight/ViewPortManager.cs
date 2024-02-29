@@ -42,6 +42,7 @@ public class ViewPortManager : MonoBehaviour
             _fighterManager.fightOrderEvent -= UpdateList;
             _fighterManager.startFightEvent -= StartFight;
             _fighterManager.indexTurnEvent -= NextTurn;
+            _fighterManager.changeLife -= ChangeLife;
         }
 
         for (int i = 0; i < _turnViewList.Count; i++)
@@ -87,6 +88,7 @@ public class ViewPortManager : MonoBehaviour
             _fighterManager.fightOrderEvent += UpdateList;
             _fighterManager.startFightEvent += StartFight;
             _fighterManager.indexTurnEvent += NextTurn;
+            _fighterManager.changeLife += ChangeLife;
         }
     }
 
@@ -177,10 +179,22 @@ public class ViewPortManager : MonoBehaviour
         if (_turnViewList.Contains(onClickTurn))
         {
             int index = _turnViewList.IndexOf(onClickTurn);
-            if (index > 0)
+            if (index >= 0)
             {
+                Debug.Log($"The index is {index}");
                 indexClicked?.Invoke(index);
             }
         }
+    }
+
+    private void ChangeLife(int index, int life)
+    {
+        if (index >= _turnViewList.Count || index < 0)
+        {
+            Debug.LogError($"{name}: The index number is out of range");
+            return;
+        }
+
+        _turnViewList[index].ChangeLife(life);
     }
 }

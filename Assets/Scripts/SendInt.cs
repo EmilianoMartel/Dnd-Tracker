@@ -9,6 +9,16 @@ public class SendInt : MonoBehaviour
 {
     [SerializeField] private TMPro.TMP_InputField _inputText;
 
+    private void Awake()
+    {
+        if (!_inputText)
+        {
+            Debug.LogError($"{name}: InputText is null\nCheck and assigned one.\nDisabling component.");
+            enabled = false;
+            return;
+        }
+    }
+
     private int GetInt()
     {
         if (int.TryParse(_inputText.text, out int result))
