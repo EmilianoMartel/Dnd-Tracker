@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ViewButtonsLogic : MonoBehaviour
 {
-    [SerializeField] private TurnLogic _turnLogic;
+    [SerializeField] private FighterManager _turnLogic;
 
     //Buttons
     [SerializeField] private Button _startButton;
