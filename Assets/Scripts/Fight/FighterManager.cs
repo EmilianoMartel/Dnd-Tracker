@@ -14,10 +14,11 @@ public class FighterManager : MonoBehaviour
 
     [SerializeField] private ButtonSendInput _buttonCustom;
     [SerializeField] private SendMonsterFighter _buttonSendFighter;
-    [SerializeField] private ViewPortManager _generateText;
+    private ViewPortManager _viewPortManager;
 
     //DataSource
     [SerializeField] private FightManagerDataSO _dataSO;
+    [SerializeField] private float _waitForManager;
 
     [SerializeField] private string _monsterTag;
     [SerializeField] private string _customTag;
@@ -31,29 +32,54 @@ public class FighterManager : MonoBehaviour
         _dataSO.fighterManager = this;
         _buttonCustom.sendFighters += NewFighter;
         _buttonSendFighter.sendMonster += NewFighter;
-        _generateText.indexChange += MoveFighters;
+        if (_viewPortManager)
+        {
+            _viewPortManager.indexChange += MoveFighters;
+        }
     }
 
     private void OnDisable()
     {
         _buttonCustom.sendFighters -= NewFighter;
         _buttonSendFighter.sendMonster -= NewFighter;
-        _generateText.indexChange -= MoveFighters;
+        if (_viewPortManager)
+        {
+            _viewPortManager.indexChange -= MoveFighters;
+        }
     }
 
     private void Awake()
     {
         if (!_buttonCustom)
         {
-            Debug.LogError($"{name}: Button is null\nCheck and assigned one.\nDisabling component.");
+            Debug.LogError($"{name}: ButtonCustom is null\nCheck and assigned one.\nDisabling component.");
             enabled = false;
             return;
         }
-        if (!_generateText)
+        if (!_buttonSendFighter)
         {
-            Debug.LogError($"{name}: Generate Text is null\nCheck and assigned one.\nDisabling component.");
+            Debug.LogError($"{name}: ButtonSendFighter is null\nCheck and assigned one.\nDisabling component.");
             enabled = false;
             return;
+        }
+        if (!_dataSO)
+        {
+            Debug.LogError($"{name}: DataSource is null\nCheck and assigned one.\nDisabling component.");
+            enabled = false;
+            return;
+        }
+
+        _dataSO.fighterManager = this;
+        StartCoroutine(SetManager());
+    }
+
+    private IEnumerator SetManager()
+    {
+        yield return new WaitForSeconds(_waitForManager);
+        if (_dataSO.viewPortManager && !_viewPortManager)
+        {
+            _viewPortManager = _dataSO.viewPortManager;
+            _viewPortManager.indexChange += MoveFighters;
         }
     }
 

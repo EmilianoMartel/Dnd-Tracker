@@ -11,12 +11,13 @@ public class ViewPortManager : MonoBehaviour
     public Action<int, bool> indexChange;
     public Action<int> indexClicked;
 
-    [SerializeField] private FighterManager _turnLogic;
+    private FighterManager _fighterManager;
     [SerializeField] private TurnViewPort _turnPrefab;
     [SerializeField] private InputRead _inputRead;
 
     //DataSource
     [SerializeField] private FightManagerDataSO _dataSO;
+    [SerializeField] private float _waitForManager;
 
     private TurnViewPort _textTemp;
     private List<TurnViewPort> _turnViewList = new List<TurnViewPort>();
@@ -24,16 +25,24 @@ public class ViewPortManager : MonoBehaviour
     private void OnEnable()
     {
         _dataSO.viewPortManager = this;
-        _turnLogic.sendFighter += NewText;
-        _turnLogic.fightOrderEvent += UpdateList;
-        _turnLogic.startFightEvent += StartFight;
-        _turnLogic.indexTurnEvent += NextTurn;
+        if (_fighterManager)
+        {
+            _fighterManager.sendFighter += NewText;
+            _fighterManager.fightOrderEvent += UpdateList;
+            _fighterManager.startFightEvent += StartFight;
+            _fighterManager.indexTurnEvent += NextTurn;
+        }
     }
 
     private void OnDisable()
     {
-        _turnLogic.sendFighter -= NewText;
-        _turnLogic.fightOrderEvent -= UpdateList;
+        if (_fighterManager)
+        {
+            _fighterManager.sendFighter -= NewText;
+            _fighterManager.fightOrderEvent -= UpdateList;
+            _fighterManager.startFightEvent -= StartFight;
+            _fighterManager.indexTurnEvent -= NextTurn;
+        }
 
         for (int i = 0; i < _turnViewList.Count; i++)
         {
@@ -41,17 +50,43 @@ public class ViewPortManager : MonoBehaviour
             _turnViewList[i].downEvent -= MoveDown;
             _turnViewList[i].isClicked -= CheckClick;
         }
-        _turnLogic.startFightEvent -= StartFight;
-        _turnLogic.indexTurnEvent -= NextTurn;
     }
 
     private void Awake()
     {
-        if (!_turnLogic)
+        if (!_dataSO)
         {
-            Debug.LogError($"{name}: TurnLogic is null\nCheck and assigned one.\nDisabling component.");
+            Debug.LogError($"{name}: DataSource is null\nCheck and assigned one.\nDisabling component.");
             enabled = false;
             return;
+        }
+        if (!_turnPrefab)
+        {
+            Debug.LogError($"{name}: TurnViewPortPrefab is null\nCheck and assigned one.\nDisabling component.");
+            enabled = false;
+            return;
+        }
+        if (!_inputRead)
+        {
+            Debug.LogError($"{name}: InputRead is null\nCheck and assigned one.\nDisabling component.");
+            enabled = false;
+            return;
+        }
+
+        _dataSO.viewPortManager = this;
+        StartCoroutine(SetManager());
+    }
+
+    private IEnumerator SetManager()
+    {
+        yield return new WaitForSeconds(_waitForManager);
+        if (_dataSO.fighterManager && !_fighterManager)
+        {
+            _fighterManager = _dataSO.fighterManager;
+            _fighterManager.sendFighter += NewText;
+            _fighterManager.fightOrderEvent += UpdateList;
+            _fighterManager.startFightEvent += StartFight;
+            _fighterManager.indexTurnEvent += NextTurn;
         }
     }
 
